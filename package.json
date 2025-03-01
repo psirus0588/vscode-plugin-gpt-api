@@ -12,12 +12,50 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "menus": {
+      "editor/context": [
+        {
+          "command": "chatgpt.sendSelectedCode",
+          "group": "navigation",
+          "when": "editorHasSelection"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "vscode-plugin-gpt-api.helloWorld",
-        "title": "Hello World"
+        "command": "chatgpt.sendSelectedCode",
+        "title": "Send Selected Code to ChatGPT"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "chatgpt-container",
+          "title": "ChatGPT",
+          "icon": "./media/chatgpt.svg"
+        }
+      ]
+    },
+    "views": {
+      "chatgpt-container": [
+        {
+          "id": "chatgptView",
+          "name": "ChatGPT",
+          "type": "webview",
+          "icon": "./media/chatgpt.svg"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "ChatGPT Settings",
+      "properties": {
+        "chatgpt.apiKey": {
+          "type": "string",
+          "description": "API key for ChatGPT. Get it from https://platform.openai.com/account/api-keys.",
+          "default": ""
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
@@ -31,17 +69,20 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.97.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.97.0",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
-    "eslint": "^9.19.0",
-    "typescript": "^5.7.3",
-    "ts-loader": "^9.5.2",
-    "webpack": "^5.97.1",
-    "webpack-cli": "^6.0.1",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.19.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.7.3",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "axios": "^1.8.1"
   }
 }
